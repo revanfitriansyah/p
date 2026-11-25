@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Majelis Tilawah – Ruang Ngaji Online</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap">
+<style>
+:root{--bg:#f6f1e7;--card:#fffdf8;--ink:#23332b;--mut:#6b7a71;--acc:#1f6b4f;--hl:#e3f1e8;--bd:#e2d9c6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a15;--card:#17241d;--ink:#e8efe9;--mut:#93a69a;--acc:#5fc79b;--hl:#1f3a2d;--bd:#2a3d33}}
+:root[data-theme="dark"]{--bg:#101a15;--card:#17241d;--ink:#e8efe9;--mut:#93a69a;--acc:#5fc79b;--hl:#1f3a2d;--bd:#2a3d33}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+header{text-align:center;padding:12px 0 18px}
+header h1{margin:0;font-size:1.8rem;color:var(--acc)}
+header p{margin:4px 0 0;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px}
+select,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
+button{cursor:pointer}button.p{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+input[type=range]{accent-color:var(--acc)}
+.sp{flex:1}
+.status{display:flex;align-items:center;gap:8px;margin:14px 2px;color:var(--mut);font-size:.92rem}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--mut)}
+.on .dot{background:var(--acc);animation:pl 1.2s infinite}
+@keyframes pl{50%{opacity:.25}}
+.surah{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px 16px}
+.surah h2{margin:0;text-align:center;font-size:1.2rem}
+.surah .meta{text-align:center;color:var(--mut);font-size:.9rem;margin-bottom:10px}
+.ayah{padding:14px 10px;border-top:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:background .3s}
+.ayah.act{background:var(--hl)}
+.ar{font-family:"Amiri","Traditional Arabic","Scheherazade New",serif;direction:rtl;text-align:right;line-height:2.1;margin:0}
+.num{display:inline-block;min-width:1.9em;text-align:center;border:1px solid var(--acc);color:var(--acc);border-radius:50%;font-size:.8em;margin-inline-start:8px;font-family:system-ui,sans-serif}
+.tr{margin:6px 0 0;color:var(--mut);font-size:.95rem}
+footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:22px}
+.aud{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:14px}.aud p{margin:6px 0}.aud .small{color:var(--mut);font-size:.85rem}.aud a{display:inline-block;margin:4px 0;color:var(--acc);font-weight:600}
+[hidden]{display:none!important}
+.cv{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 16px 48px;text-align:center;background:radial-gradient(circle at 50% 0,var(--hl),var(--bg) 60%)}
+.cv .bis{font-family:Amiri,serif;font-size:2rem;color:var(--acc);margin:0 0 10px}
+.cv h1{font-size:2.5rem;margin:0;color:var(--acc)}
+.cv p{color:var(--mut);max-width:520px;margin:8px 0}
+.cv h3{margin:22px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;width:100%;max-width:760px;margin-top:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 8px;cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:2px}
+.card .a{font-family:Amiri,serif;font-size:1.5rem;color:var(--acc)}
+.card small{color:var(--mut)}
+.bm{color:var(--acc);font-size:.85rem;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="cv" id="cover">
+<div class="bis">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+<div style="font-size:3rem">🕌</div>
+<h1>Selamat Mengaji</h1>
+<p>Selamat datang di Majelis Tilawah. Semoga setiap ayat yang dibaca menjadi cahaya dan ketenangan hati.</p>
+<h3>Pilih bacaan surat</h3>
+<div class="grid" id="grid"></div>
+<p style="font-size:.85rem;margin-top:20px">Ketuk salah satu surat untuk mulai membaca.</p>
+<p style="font-size:.9rem">Surat panjang lain (teks lengkap di Quran.com):<br><a href="https://quran.com/67" target="_blank" rel="noopener" style="color:var(--acc)">Al-Mulk ↗</a> · <a href="https://quran.com/36" target="_blank" rel="noopener" style="color:var(--acc)">Yasin ↗</a></p>
+</div>
+<div class="wrap" id="app" hidden>
+<header>
+<button id="back" style="float:left">← Menu</button>
+<h1>🕌 Majelis Tilawah</h1>
+<p>Ruang ngaji online: pilih surat, lalu baca dan ikuti ayatnya bersama</p>
+</header>
+
+<div class="bar">
+<select id="sel" aria-label="Pilih surat"></select>
+<button id="play" class="p">▶ Mulai ngaji</button>
+<button id="stop">⏹ Berhenti</button>
+<button id="tts" title="Suara bawaan perangkat, bukan suara ustadz">🔊 Suara perangkat</button>
+<span class="sp"></span>
+<label>Ukuran <input id="sz" type="range" min="24" max="56" value="36"></label>
+<label>Tempo <select id="tp"><option value="6">Pelan</option><option value="4" selected>Sedang</option><option value="2.5">Cepat</option></select></label>
+</div>
+
+<div class="status" id="st"><span class="dot"></span><span id="stt">Belum mulai. Ketuk ayat untuk menandainya.</span></div>
+
+<div class="aud">
+<strong>🎧 Dengarkan qari asli</strong>
+<p>Rekaman suara ustadz/qari sungguhan tidak bisa diputar langsung di halaman ini. Buka pemutar resmi di bawah, lalu pilih qari favoritmu di sana (misalnya Mishary Rashid Alafasy).</p>
+<a id="lnk" href="https://quran.com" target="_blank" rel="noopener">Buka surat ini di Quran.com ↗</a>
+<p class="small">Tombol “🔊 Suara perangkat” di atas memakai suara mesin bawaan HP/laptop dan <b>bukan</b> suara ustadz mana pun; ketersediaan suara Arab tergantung perangkat.</p>
+</div>
+<section class="surah" id="out"></section>
+<div class="bm" id="bm"></div>
+<footer>Mode “Mulai ngaji” menyorot ayat satu per satu sebagai teman membaca. Teks dan terjemahan ditampilkan untuk belajar; mohon periksa kembali dengan mushaf resmi.</footer>
+</div>
+
+<script>
+const R=["فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ","Maka nikmat Tuhanmu yang manakah yang kamu dustakan?"];
+const S=[
+{n:"Al-Fātiḥah",a:"الفاتحة",k:"Makkiyyah",v:[
+["بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ","Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."],
+["ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ","Segala puji bagi Allah, Tuhan semesta alam."],
+["ٱلرَّحْمَٰنِ ٱلرَّحِيمِ","Yang Maha Pengasih, Maha Penyayang."],
+["مَٰلِكِ يَوْمِ ٱلدِّينِ","Pemilik hari pembalasan."],
+["إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ","Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami mohon pertolongan."],
+["ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ","Tunjukilah kami jalan yang lurus,"],
+["صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ","(yaitu) jalan orang-orang yang telah Engkau beri nikmat, bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat."]]},
+{n:"Al-Ikhlāṣ",a:"الإخلاص",k:"Makkiyyah",v:[
+["قُلْ هُوَ ٱللَّهُ أَحَدٌ","Katakanlah (Muhammad), “Dialah Allah, Yang Maha Esa."],
+["ٱللَّهُ ٱلصَّمَدُ","Allah tempat meminta segala sesuatu."],
+["لَمْ يَلِدْ وَلَمْ يُولَدْ","(Allah) tidak beranak dan tidak pula diperanakkan."],
+["وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ","Dan tidak ada sesuatu yang setara dengan Dia.”"]]},
+{n:"Al-Falaq",a:"الفلق",k:"Makkiyyah",v:[
+["قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ","Katakanlah, “Aku berlindung kepada Tuhan yang menguasai subuh (fajar),"],
+["مِن شَرِّ مَا خَلَقَ","dari kejahatan (makhluk yang) Dia ciptakan,"],
+["وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ","dan dari kejahatan malam apabila telah gelap gulita,"],
+["وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ","dan dari kejahatan perempuan-perempuan penyihir yang meniup pada buhul-buhul (talinya),"],
+["وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ","dan dari kejahatan orang yang dengki apabila dia dengki.”"]]},
+{n:"An-Nās",a:"الناس",k:"Makkiyyah",v:[
+["قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ","Katakanlah, “Aku berlindung kepada Tuhannya manusia,"],
+["مَلِكِ ٱلنَّاسِ","Raja manusia,"],
+["إِلَٰهِ ٱلنَّاسِ","sembahan manusia,"],
+["مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ","dari kejahatan (bisikan) setan yang bersembunyi,"],
+["ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ","yang membisikkan (kejahatan) ke dalam dada manusia,"],
+["مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ","dari (golongan) jin dan manusia.”"]]},
+{n:"Al-Kautsar",a:"الكوثر",k:"Makkiyyah",v:[
+["إِنَّآ أَعْطَيْنَٰكَ ٱلْكَوْثَرَ","Sungguh, Kami telah memberimu (Muhammad) nikmat yang banyak."],
+["فَصَلِّ لِرَبِّكَ وَٱنْحَرْ","Maka laksanakanlah salat karena Tuhanmu, dan berkurbanlah."],
+["إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ","Sungguh, orang-orang yang membenci kamu dialah yang terputus."]]},
+{n:"Al-ʿAṣr",a:"العصر",k:"Makkiyyah",v:[
+["وَٱلْعَصْرِ","Demi masa,"],
+["إِنَّ ٱلْإِنسَٰنَ لَفِى خُسْرٍ","sungguh, manusia berada dalam kerugian,"],
+["إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ","kecuali orang-orang yang beriman dan mengerjakan kebajikan serta saling menasihati untuk kebenaran dan saling menasihati untuk kesabaran."]]},
+{n:"Al-Kāfirūn",a:"الكافرون",k:"Makkiyyah",v:[
+["قُلْ يَٰٓأَيُّهَا ٱلْكَٰفِرُونَ","Katakanlah (Muhammad), “Wahai orang-orang kafir!"],
+["لَآ أَعْبُدُ مَا تَعْبُدُونَ","aku tidak akan menyembah apa yang kamu sembah,"],
+["وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ","dan kamu bukan penyembah apa yang aku sembah,"],
+["وَلَآ أَنَا۠ عَابِدٌ مَّا عَبَدتُّمْ","dan aku tidak pernah menjadi penyembah apa yang kamu sembah,"],
+["وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ","dan kamu tidak pernah (pula) menjadi penyembah apa yang aku sembah."],
+["لَكُمْ دِينُكُمْ وَلِىَ دِينِ","Untukmu agamamu, dan untukkulah, agamaku.”"]]},
+{n:"An-Naṣr",a:"النصر",k:"Madaniyyah",v:[
+["إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ","Apabila telah datang pertolongan Allah dan kemenangan,"],
+["وَرَأَيْتَ ٱلنَّاسَ يَدْخُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًا","dan engkau melihat manusia berbondong-bondong masuk agama Allah,"],
+["فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِنَّهُۥ كَانَ تَوَّابًۢا","maka bertasbihlah dengan memuji Tuhanmu dan mohonlah ampunan kepada-Nya. Sungguh, Dia Maha Penerima tobat."]]},
+{n:"Al-Masad (Al-Lahab)",a:"المسد",k:"Makkiyyah",v:[
+["تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ","Binasalah kedua tangan Abu Lahab dan benar-benar binasa dia!"],
+["مَآ أَغْنَىٰ عَنْهُ مَالُهُۥ وَمَا كَسَبَ","Tidaklah berguna baginya hartanya dan apa yang dia usahakan."],
+["سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ","Kelak dia akan masuk ke dalam api yang bergejolak (neraka),"],
+["وَٱمْرَأَتُهُۥ حَمَّالَةَ ٱلْحَطَبِ","dan (begitu pula) istrinya, pembawa kayu bakar (penyebar fitnah)."],
+["فِى جِيدِهَا حَبْلٌ مِّن مَّسَدٍۭ","Di lehernya ada tali dari sabut yang dipintal."]]},
+{n:"Quraisy",a:"قريش",k:"Makkiyyah",v:[
+["لِإِيلَٰفِ قُرَيْشٍ","Karena kebiasaan orang-orang Quraisy,"],
+["إِۦلَٰفِهِمْ رِحْلَةَ ٱلشِّتَآءِ وَٱلصَّيْفِ","(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas."],
+["فَلْيَعْبُدُوا۟ رَبَّ هَٰذَا ٱلْبَيْتِ","Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Kakbah),"],
+["ٱلَّذِىٓ أَطْعَمَهُم مِّن جُوعٍ وَءَامَنَهُم مِّنْ خَوْفٍۭ","yang telah memberi makan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari rasa ketakutan."]]},
+{n:"Al-Fīl",a:"الفيل",k:"Makkiyyah",v:[
+["أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَٰبِ ٱلْفِيلِ","Tidakkah engkau (Muhammad) perhatikan bagaimana Tuhanmu telah bertindak terhadap pasukan bergajah?"],
+["أَلَمْ يَجْعَلْ كَيْدَهُمْ فِى تَضْلِيلٍ","Bukankah Dia telah menjadikan tipu daya mereka itu sia-sia?"],
+["وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ","dan Dia mengirimkan kepada mereka burung yang berbondong-bondong,"],
+["تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ","yang melempari mereka dengan batu (berasal) dari tanah yang terbakar,"],
+["فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍۭ","sehingga Dia menjadikan mereka seperti daun-daun yang dimakan (ulat)."]]},
+{n:"Al-Māʿūn",a:"الماعون",k:"Makkiyyah",v:[
+["أَرَءَيْتَ ٱلَّذِى يُكَذِّبُ بِٱلدِّينِ","Tahukah kamu (orang) yang mendustakan agama?"],
+["فَذَٰلِكَ ٱلَّذِى يَدُعُّ ٱلْيَتِيمَ","Maka itulah orang yang menghardik anak yatim,"],
+["وَلَا يَحُضُّ عَلَىٰ طَعَامِ ٱلْمِسْكِينِ","dan tidak mendorong memberi makan orang miskin."],
+["فَوَيْلٌ لِّلْمُصَلِّينَ","Maka celakalah orang yang salat,"],
+["ٱلَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ","(yaitu) orang-orang yang lalai terhadap salatnya,"],
+["ٱلَّذِينَ هُمْ يُرَآءُونَ","yang berbuat riya,"],
+["وَيَمْنَعُونَ ٱلْمَاعُونَ","dan enggan (memberikan) bantuan."]]},
+{n:"Al-Qadr",a:"القدر",k:"Makkiyyah",v:[
+["إِنَّآ أَنزَلْنَٰهُ فِى لَيْلَةِ ٱلْقَدْرِ","Sesungguhnya Kami telah menurunkannya (Al-Qur’an) pada malam kemuliaan."],
+["وَمَآ أَدْرَىٰكَ مَا لَيْلَةُ ٱلْقَدْرِ","Dan tahukah kamu apakah malam kemuliaan itu?"],
+["لَيْلَةُ ٱلْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ","Malam kemuliaan itu lebih baik daripada seribu bulan."],
+["تَنَزَّلُ ٱلْمَلَٰٓئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ","Pada malam itu turun malaikat-malaikat dan Rūḥ (Jibril) dengan izin Tuhannya untuk mengatur segala urusan."],
+["سَلَٰمٌ هِىَ حَتَّىٰ مَطْلَعِ ٱلْفَجْرِ","Sejahteralah (malam itu) sampai terbit fajar."]]},
+{n:"Ayat Kursi (Al-Baqarah: 255)",a:"آية الكرسي",k:"Madaniyyah",v:[
+["ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُۥ مَا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ","Allah, tidak ada tuhan selain Dia. Yang Mahahidup, Yang terus-menerus mengurus (makhluk-Nya), tidak mengantuk dan tidak tidur. Milik-Nya apa yang ada di langit dan apa yang ada di bumi. Tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui apa yang di hadapan mereka dan apa yang di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun dari ilmu-Nya melainkan apa yang Dia kehendaki. Kursi-Nya meliputi langit dan bumi. Dan Dia tidak merasa berat memelihara keduanya, dan Dia Mahatinggi, Mahabesar."]]},
+{n:"Ad-Ḍuḥā",a:"الضحى",k:"Makkiyyah",v:[
+["وَٱلضُّحَىٰ","Demi waktu dhuha (pagi),"],
+["وَٱلَّيْلِ إِذَا سَجَىٰ","dan demi malam apabila telah sunyi,"],
+["مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ","Tuhanmu tidak meninggalkan engkau (Muhammad) dan tidak (pula) membencimu,"],
+["وَلَلْءَاخِرَةُ خَيْرٌ لَّكَ مِنَ ٱلْأُولَىٰ","dan sungguh, yang kemudian itu lebih baik bagimu daripada yang permulaan."],
+["وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰٓ","Dan sungguh, kelak Tuhanmu pasti memberikan karunia-Nya kepadamu sehingga engkau menjadi puas."],
+["أَلَمْ يَجِدْكَ يَتِيمًا فَـَٔاوَىٰ","Bukankah Dia mendapatimu sebagai seorang yatim, lalu Dia melindungimu?"],
+["وَوَجَدَكَ ضَآلًّا فَهَدَىٰ","Dan Dia mendapatimu sebagai seorang yang bingung, lalu Dia memberimu petunjuk,"],
+["وَوَجَدَكَ عَآئِلًا فَأَغْنَىٰ","dan Dia mendapatimu sebagai seorang yang kekurangan, lalu Dia memberikan kecukupan."],
+["فَأَمَّا ٱلْيَتِيمَ فَلَا تَقْهَرْ","Maka terhadap anak yatim janganlah engkau berlaku sewenang-wenang."],
+["وَأَمَّا ٱلسَّآئِلَ فَلَا تَنْهَرْ","Dan terhadap orang yang meminta-minta janganlah engkau menghardik(nya)."],
+["وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ","Dan terhadap nikmat Tuhanmu, hendaklah engkau menyebut-nyebutnya (dengan bersyukur)."]]},
+{n:"Asy-Syarḥ",a:"الشرح",k:"Makkiyyah",v:[
+["أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ","Bukankah Kami telah melapangkan dadamu (Muhammad)?"],
+["وَوَضَعْنَا عَنكَ وِزْرَكَ","dan Kami pun telah menurunkan bebanmu darimu,"],
+["ٱلَّذِىٓ أَنقَضَ ظَهْرَكَ","yang memberatkan punggungmu,"],
+["وَرَفَعْنَا لَكَ ذِكْرَكَ","dan Kami tinggikan sebutan (nama)mu bagimu."],
+["فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا","Maka sesungguhnya beserta kesulitan ada kemudahan,"],
+["إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا","sesungguhnya beserta kesulitan ada kemudahan."],
+["فَإِذَا فَرَغْتَ فَٱنصَبْ","Maka apabila engkau telah selesai (dari suatu urusan), tetaplah bekerja keras (untuk urusan yang lain),"],
+["وَإِلَىٰ رَبِّكَ فَٱرْغَب","dan hanya kepada Tuhanmulah engkau berharap."]]},
+{n:"At-Tīn",a:"التين",k:"Makkiyyah",v:[
+["وَٱلتِّينِ وَٱلزَّيْتُونِ","Demi (buah) tin dan (buah) zaitun,"],
+["وَطُورِ سِينِينَ","demi gunung Sinai,"],
+["وَهَٰذَا ٱلْبَلَدِ ٱلْأَمِينِ","dan demi negeri (Mekah) yang aman ini."],
+["لَقَدْ خَلَقْنَا ٱلْإِنسَٰنَ فِىٓ أَحْسَنِ تَقْوِيمٍ","Sungguh, Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya,"],
+["ثُمَّ رَدَدْنَٰهُ أَسْفَلَ سَٰفِلِينَ","kemudian Kami kembalikan dia ke tempat yang serendah-rendahnya (neraka),"],
+["إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ","kecuali orang-orang yang beriman dan mengerjakan kebajikan; maka mereka akan mendapat pahala yang tidak ada putus-putusnya."],
+["فَمَا يُكَذِّبُكَ بَعْدُ بِٱلدِّينِ","Maka apa yang menyebabkan engkau (orang kafir) mendustakan agama (hari pembalasan) setelah (adanya keterangan) itu?"],
+["أَلَيْسَ ٱللَّهُ بِأَحْكَمِ ٱلْحَٰكِمِينَ","Bukankah Allah hakim yang paling adil?"]]},
+{n:"Ar-Raḥmān",a:"الرحمن",k:"Surat ke-55",v:[
+["ٱلرَّحْمَٰنُ","(Allah) Yang Maha Pengasih,"],
+["عَلَّمَ ٱلْقُرْءَانَ","yang telah mengajarkan Al-Qur’an."],
+["خَلَقَ ٱلْإِنسَٰنَ","Dia menciptakan manusia,"],
+["عَلَّمَهُ ٱلْبَيَانَ","mengajarnya pandai berbicara."],
+["ٱلشَّمْسُ وَٱلْقَمَرُ بِحُسْبَانٍ","Matahari dan bulan (beredar) sesuai perhitungan,"],
+["وَٱلنَّجْمُ وَٱلشَّجَرُ يَسْجُدَانِ","dan tumbuh-tumbuhan dan pepohonan tunduk (kepada-Nya)."],
+["وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ","Dan langit telah ditinggikan-Nya dan Dia ciptakan keseimbangan,"],
+["أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ","agar kamu jangan merusak keseimbangan itu,"],
+["وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ","dan tegakkanlah timbangan itu dengan adil dan janganlah kamu mengurangi neraca itu."],
+["وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ","Dan bumi telah dibentangkan-Nya untuk makhluk(-Nya),"],
+["فِيهَا فَٰكِهَةٌ وَٱلنَّخْلُ ذَاتُ ٱلْأَكْمَامِ","di dalamnya ada buah-buahan dan pohon kurma yang mempunyai kelopak mayang,"],
+["وَٱلْحَبُّ ذُو ٱلْعَصْفِ وَٱلرَّيْحَانُ","dan biji-bijian yang berkulit dan bunga-bunga yang harum baunya."],
+R,
+["خَلَقَ ٱلْإِنسَٰنَ مِن صَلْصَٰلٍ كَٱلْفَخَّارِ","Dia menciptakan manusia dari tanah kering seperti tembikar,"],
+["وَخَلَقَ ٱلْجَآنَّ مِن مَّارِجٍ مِّن نَّارٍ","dan Dia menciptakan jin dari nyala api tanpa asap."],
+R,
+["رَبُّ ٱلْمَشْرِقَيْنِ وَرَبُّ ٱلْمَغْرِبَيْنِ","Tuhan (yang memelihara) dua timur dan Tuhan (yang memelihara) dua barat."],
+R,
+["مَرَجَ ٱلْبَحْرَيْنِ يَلْتَقِيَانِ","Dia membiarkan dua lautan mengalir yang kemudian keduanya bertemu,"],
+["بَيْنَهُمَا بَرْزَخٌ لَّا يَبْغِيَانِ","di antara keduanya ada batas yang tidak dilampaui masing-masing."],
+R,
+["يَخْرُجُ مِنْهُمَا ٱللُّؤْلُؤُ وَٱلْمَرْجَانُ","Dari keduanya keluar mutiara dan marjan."],
+R,
+["وَلَهُ ٱلْجَوَارِ ٱلْمُنشَـَٔاتُ فِى ٱلْبَحْرِ كَٱلْأَعْلَٰمِ","Dan milik-Nyalah kapal-kapal yang berlayar di lautan bagaikan gunung-gunung."],
+R,
+["كُلُّ مَنْ عَلَيْهَا فَانٍ","Semua yang ada di bumi itu akan binasa,"],
+["وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَٰلِ وَٱلْإِكْرَامِ","dan tetap kekal Dzat Tuhanmu yang memiliki kebesaran dan kemuliaan."],
+R,
+["يَسْـَٔلُهُۥ مَن فِى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ ۚ كُلَّ يَوْمٍ هُوَ فِى شَأْنٍ","Apa yang di langit dan di bumi selalu meminta kepada-Nya. Setiap waktu Dia dalam kesibukan."],
+R,
+["سَنَفْرُغُ لَكُمْ أَيُّهَ ٱلثَّقَلَانِ","Kami akan memperhatikan sepenuhnya kepadamu wahai dua golongan (jin dan manusia)!"],
+R,
+["يَٰمَعْشَرَ ٱلْجِنِّ وَٱلْإِنسِ إِنِ ٱسْتَطَعْتُمْ أَن تَنفُذُوا۟ مِنْ أَقْطَارِ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ فَٱنفُذُوا۟ ۚ لَا تَنفُذُونَ إِلَّا بِسُلْطَٰنٍ","Wahai golongan jin dan manusia! Jika kamu sanggup menembus (melintasi) penjuru langit dan bumi, maka tembuslah. Kamu tidak akan mampu menembusnya kecuali dengan kekuatan (dari Allah)."],
+R,
+["يُرْسَلُ عَلَيْكُمَا شُوَاظٌ مِّن نَّارٍ وَنُحَاسٌ فَلَا تَنتَصِرَانِ","Kepada kamu (jin dan manusia) dilepaskan nyala api dan cairan tembaga, maka kamu tidak dapat menyelamatkan diri (daripadanya)."],
+R,
+["فَإِذَا ٱنشَقَّتِ ٱلسَّمَآءُ فَكَانَتْ وَرْدَةً كَٱلدِّهَانِ","Maka apabila langit terbelah dan menjadi merah mawar seperti (kilauan) minyak."],
+R,
+["فَيَوْمَئِذٍ لَّا يُسْـَٔلُ عَن ذَنۢبِهِۦٓ إِنسٌ وَلَا جَآنٌّ","Maka pada hari itu manusia dan jin tidak ditanya tentang dosanya."],
+R,
+["يُعْرَفُ ٱلْمُجْرِمُونَ بِسِيمَٰهُمْ فَيُؤْخَذُ بِٱلنَّوَاصِى وَٱلْأَقْدَامِ","Orang-orang yang berdosa dikenal dengan tanda-tandanya, lalu direnggut ubun-ubun dan kaki mereka."],
+R,
+["هَٰذِهِۦ جَهَنَّمُ ٱلَّتِى يُكَذِّبُ بِهَا ٱلْمُجْرِمُونَ","Inilah neraka Jahanam yang didustakan oleh orang-orang yang berdosa."],
+["يَطُوفُونَ بَيْنَهَا وَبَيْنَ حَمِيمٍ ءَانٍ","Mereka berkeliling di antaranya dan di antara air mendidih yang memuncak panasnya."],
+R,
+["وَلِمَنْ خَافَ مَقَامَ رَبِّهِۦ جَنَّتَانِ","Dan bagi orang yang takut akan saat menghadap Tuhannya ada dua surga."],
+R,
+["ذَوَاتَآ أَفْنَانٍ","Kedua (surga) itu mempunyai aneka pohon dan buah-buahan."],
+R,
+["فِيهِمَا عَيْنَانِ تَجْرِيَانِ","Di dalam kedua surga itu ada dua buah mata air yang mengalir."],
+R,
+["فِيهِمَا مِن كُلِّ فَٰكِهَةٍ زَوْجَانِ","Di dalam kedua surga itu terdapat segala macam buah-buahan yang berpasang-pasangan."],
+R,
+["مُتَّكِـِٔينَ عَلَىٰ فُرُشٍۭ بَطَآئِنُهَا مِنْ إِسْتَبْرَقٍ ۚ وَجَنَى ٱلْجَنَّتَيْنِ دَانٍ","Mereka bersandar di atas permadani yang bagian dalamnya dari sutra tebal. Dan buah-buahan di kedua surga itu dekat (untuk dipetik)."],
+R,
+["فِيهِنَّ قَٰصِرَٰتُ ٱلطَّرْفِ لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ","Di dalam surga-surga itu ada bidadari-bidadari yang sopan menundukkan pandangannya, yang tidak pernah disentuh oleh manusia maupun jin sebelumnya."],
+R,
+["كَأَنَّهُنَّ ٱلْيَاقُوتُ وَٱلْمَرْجَانُ","Seakan-akan mereka itu permata yakut dan marjan."],
+R,
+["هَلْ جَزَآءُ ٱلْإِحْسَٰنِ إِلَّا ٱلْإِحْسَٰنُ","Tidak ada balasan untuk kebaikan selain kebaikan (pula)."],
+R,
+["وَمِن دُونِهِمَا جَنَّتَانِ","Dan selain dari dua surga itu ada dua surga lagi."],
+R,
+["مُدْهَآمَّتَانِ","Kedua surga itu (kelihatan) hijau tua warnanya."],
+R,
+["فِيهِمَا عَيْنَانِ نَضَّاخَتَانِ","Di dalam kedua surga itu ada dua buah mata air yang memancar."],
+R,
+["فِيهِمَا فَٰكِهَةٌ وَنَخْلٌ وَرُمَّانٌ","Di dalam kedua surga itu ada buah-buahan, kurma dan delima."],
+R,
+["فِيهِنَّ خَيْرَٰتٌ حِسَانٌ","Di dalam surga-surga itu ada bidadari-bidadari yang baik-baik lagi cantik-cantik."],
+R,
+["حُورٌ مَّقْصُورَٰتٌ فِى ٱلْخِيَامِ","(Bidadari-bidadari) yang jelita, putih, dipingit dalam rumah."],
+R,
+["لَمْ يَطْمِثْهُنَّ إِنسٌ قَبْلَهُمْ وَلَا جَآنٌّ","Mereka tidak pernah disentuh oleh manusia maupun jin sebelumnya."],
+R,
+["مُتَّكِـِٔينَ عَلَىٰ رَفْرَفٍ خُضْرٍ وَعَبْقَرِىٍّ حِسَانٍ","Mereka bersandar pada bantal-bantal yang hijau dan permadani-permadani yang indah."],
+R,
+["تَبَٰرَكَ ٱسْمُ رَبِّكَ ذِى ٱلْجَلَٰلِ وَٱلْإِكْرَامِ","Mahasuci nama Tuhanmu Pemilik Kebesaran dan Kemuliaan."]]},
+{n:"Al-Wāqiʿah",a:"الواقعة",k:"Surat ke-56",v:[
+["إِذَا وَقَعَتِ ٱلْوَاقِعَةُ","Apabila terjadi hari Kiamat,"],
+["لَيْسَ لِوَقْعَتِهَا كَاذِبَةٌ","tidak seorang pun dapat berdusta tentang kejadiannya."],
+["خَافِضَةٌ رَّافِعَةٌ","(Kejadian itu) merendahkan (satu golongan) dan meninggikan (golongan yang lain),"],
+["إِذَا رُجَّتِ ٱلْأَرْضُ رَجًّا","apabila bumi digoncangkan sedahsyat-dahsyatnya,"],
+["وَبُسَّتِ ٱلْجِبَالُ بَسًّا","dan gunung-gunung dihancurluluhkan sehancur-hancurnya,"],
+["فَكَانَتْ هَبَآءً مُّنۢبَثًّا","maka jadilah ia debu yang beterbangan,"],
+["وَكُنتُمْ أَزْوَٰجًا ثَلَٰثَةً","dan kamu menjadi tiga golongan,"],
+["فَأَصْحَٰبُ ٱلْمَيْمَنَةِ مَآ أَصْحَٰبُ ٱلْمَيْمَنَةِ","yaitu golongan kanan; alangkah mulianya golongan kanan itu,"],
+["وَأَصْحَٰبُ ٱلْمَشْـَٔمَةِ مَآ أَصْحَٰبُ ٱلْمَشْـَٔمَةِ","dan golongan kiri; alangkah sengsaranya golongan kiri itu,"],
+["وَٱلسَّٰبِقُونَ ٱلسَّٰبِقُونَ","dan orang-orang yang paling dahulu (beriman), merekalah yang paling dahulu (masuk surga)."],
+["أُو۟لَٰٓئِكَ ٱلْمُقَرَّبُونَ","Mereka itulah orang yang didekatkan (kepada Allah),"],
+["فِى جَنَّٰتِ ٱلنَّعِيمِ","berada dalam surga-surga kenikmatan."],
+["ثُلَّةٌ مِّنَ ٱلْأَوَّلِينَ","Segolongan besar dari orang-orang yang terdahulu,"],
+["وَقَلِيلٌ مِّنَ ٱلْـَٔاخِرِينَ","dan segolongan kecil dari orang-orang yang kemudian."],
+["عَلَىٰ سُرُرٍ مَّوْضُونَةٍ","Mereka berada di atas dipan-dipan yang bertahtakan emas dan permata,"],
+["مُّتَّكِـِٔينَ عَلَيْهَا مُتَقَٰبِلِينَ","seraya bersandar di atasnya berhadap-hadapan."],
+["يَطُوفُ عَلَيْهِمْ وِلْدَٰنٌ مُّخَلَّدُونَ","Mereka dikelilingi oleh anak-anak muda yang tetap muda,"],
+["بِأَكْوَابٍ وَأَبَارِيقَ وَكَأْسٍ مِّن مَّعِينٍ","dengan membawa gelas, cerek, dan minuman yang diambil dari air yang mengalir,"],
+["لَّا يُصَدَّعُونَ عَنْهَا وَلَا يُنزِفُونَ","mereka tidak pening karenanya dan tidak pula mabuk,"],
+["وَفَٰكِهَةٍ مِّمَّا يَتَخَيَّرُونَ","dan buah-buahan apa pun yang mereka pilih,"],
+["وَلَحْمِ طَيْرٍ مِّمَّا يَشْتَهُونَ","dan daging burung dari apa yang mereka inginkan."],
+["وَحُورٌ عِينٌ","Dan (di dalam surga ada) bidadari-bidadari bermata indah,"],
+["كَأَمْثَٰلِ ٱللُّؤْلُؤِ ٱلْمَكْنُونِ","laksana mutiara yang tersimpan baik."],
+["جَزَآءًۢ بِمَا كَانُوا۟ يَعْمَلُونَ","Sebagai balasan atas apa yang mereka kerjakan."],
+["لَا يَسْمَعُونَ فِيهَا لَغْوًا وَلَا تَأْثِيمًا","Di dalamnya mereka tidak mendengar perkataan yang sia-sia maupun yang menimbulkan dosa,"],
+["إِلَّا قِيلًا سَلَٰمًا سَلَٰمًا","tetapi mereka mendengar ucapan salam, salam."],
+["وَأَصْحَٰبُ ٱلْيَمِينِ مَآ أَصْحَٰبُ ٱلْيَمِينِ","Dan golongan kanan, alangkah bahagianya golongan kanan itu."],
+["فِى سِدْرٍ مَّخْضُودٍ","Mereka berada di antara pohon bidara yang tidak berduri,"],
+["وَطَلْحٍ مَّنضُودٍ","dan pohon pisang yang tersusun rapi (buahnya),"],
+["وَظِلٍّ مَّمْدُودٍ","dan naungan yang terbentang luas,"],
+["وَمَآءٍ مَّسْكُوبٍ","dan air yang mengalir terus-menerus,"],
+["وَفَٰكِهَةٍ كَثِيرَةٍ","dan buah-buahan yang banyak,"],
+["لَّا مَقْطُوعَةٍ وَلَا مَمْنُوعَةٍ","yang tidak berhenti (berbuah) dan tidak terlarang mengambilnya,"],
+["وَفُرُشٍ مَّرْفُوعَةٍ","dan kasur-kasur yang tinggi."],
+["إِنَّآ أَنشَأْنَٰهُنَّ إِنشَآءً","Sungguh, Kami menciptakan mereka (bidadari-bidadari) dengan langsung,"],
+["فَجَعَلْنَٰهُنَّ أَبْكَارًا","dan Kami jadikan mereka perawan-perawan,"],
+["عُرُبًا أَتْرَابًا","yang penuh cinta (dan) sebaya umurnya,"],
+["لِّأَصْحَٰبِ ٱلْيَمِينِ","untuk golongan kanan,"],
+["ثُلَّةٌ مِّنَ ٱلْأَوَّلِينَ","(yaitu) segolongan besar dari orang-orang yang terdahulu,"],
+["وَثُلَّةٌ مِّنَ ٱلْـَٔاخِرِينَ","dan segolongan besar pula dari orang-orang yang kemudian."],
+["وَأَصْحَٰبُ ٱلشِّمَالِ مَآ أَصْحَٰبُ ٱلشِّمَالِ","Dan golongan kiri, alangkah sengsaranya golongan kiri itu."],
+["فِى سَمُومٍ وَحَمِيمٍ","Mereka berada dalam (siksaan) angin yang panas dan air yang mendidih,"],
+["وَظِلٍّ مِّن يَحْمُومٍ","dan naungan asap yang hitam,"],
+["لَّا بَارِدٍ وَلَا كَرِيمٍ","tidak sejuk dan tidak menyenangkan."],
+["إِنَّهُمْ كَانُوا۟ قَبْلَ ذَٰلِكَ مُتْرَفِينَ","Sesungguhnya mereka sebelum itu (di dunia) hidup bermewah-mewahan,"],
+["وَكَانُوا۟ يُصِرُّونَ عَلَى ٱلْحِنثِ ٱلْعَظِيمِ","dan mereka terus-menerus mengerjakan dosa yang besar,"],
+["وَكَانُوا۟ يَقُولُونَ أَئِذَا مِتْنَا وَكُنَّا تُرَابًا وَعِظَٰمًا أَءِنَّا لَمَبْعُوثُونَ","dan mereka berkata, “Apabila kami mati dan kami telah menjadi tanah dan tulang belulang, apakah kami benar-benar akan dibangkitkan kembali?"],
+["أَوَءَابَآؤُنَا ٱلْأَوَّلُونَ","Dan apakah nenek moyang kami yang terdahulu (akan dibangkitkan pula)?”"],
+["قُلْ إِنَّ ٱلْأَوَّلِينَ وَٱلْـَٔاخِرِينَ","Katakanlah (Muhammad), “Sesungguhnya orang-orang yang terdahulu dan yang kemudian,"],
+["لَمَجْمُوعُونَ إِلَىٰ مِيقَٰتِ يَوْمٍ مَّعْلُومٍ","pasti semua akan dikumpulkan pada waktu tertentu di hari yang dikenal."],
+["ثُمَّ إِنَّكُمْ أَيُّهَا ٱلضَّآلُّونَ ٱلْمُكَذِّبُونَ","Kemudian sesungguhnya kamu, wahai orang-orang yang sesat lagi mendustakan,"],
+["لَأَكِلُونَ مِن شَجَرٍ مِّن زَقُّومٍ","pasti akan memakan pohon zaqqum,"],
+["فَمَالِـُٔونَ مِنْهَا ٱلْبُطُونَ","dan akan memenuhi perutmu dengannya,"],
+["فَشَٰرِبُونَ عَلَيْهِ مِنَ ٱلْحَمِيمِ","sesudah itu kamu akan meminum air yang sangat panas."],
+["فَشَٰرِبُونَ شُرْبَ ٱلْهِيمِ","Maka kamu minum seperti unta yang sangat haus minum.”"],
+["هَٰذَا نُزُلُهُمْ يَوْمَ ٱلدِّينِ","Itulah hidangan untuk mereka pada hari pembalasan."],
+["نَحْنُ خَلَقْنَٰكُمْ فَلَوْلَا تُصَدِّقُونَ","Kamilah yang menciptakan kamu, mengapa kamu tidak membenarkan(-Nya)?"],
+["أَفَرَءَيْتُم مَّا تُمْنُونَ","Maka terangkanlah kepada-Ku tentang (benih manusia) yang kamu pancarkan."],
+["ءَأَنتُمْ تَخْلُقُونَهُۥٓ أَمْ نَحْنُ ٱلْخَٰلِقُونَ","Kamukah yang menciptakannya, atau Kami yang menciptakannya?"],
+["نَحْنُ قَدَّرْنَا بَيْنَكُمُ ٱلْمَوْتَ وَمَا نَحْنُ بِمَسْبُوقِينَ","Kami telah menentukan kematian masing-masing kamu dan Kami tidak dapat dikalahkan,"],
+["عَلَىٰٓ أَن نُّبَدِّلَ أَمْثَٰلَكُمْ وَنُنشِئَكُمْ فِى مَا لَا تَعْلَمُونَ","untuk menggantikan kamu dengan orang-orang yang seperti kamu (di dunia) dan membangkitkan kamu kelak (di akhirat) dalam keadaan yang tidak kamu ketahui."],
+["وَلَقَدْ عَلِمْتُمُ ٱلنَّشْأَةَ ٱلْأُولَىٰ فَلَوْلَا تَذَكَّرُونَ","Dan sungguh, kamu telah mengetahui penciptaan yang pertama, mengapa kamu tidak mengambil pelajaran?"],
+["أَفَرَءَيْتُم مَّا تَحْرُثُونَ","Maka terangkanlah kepada-Ku tentang apa yang kamu tanam."],
+["ءَأَنتُمْ تَزْرَعُونَهُۥٓ أَمْ نَحْنُ ٱلزَّٰرِعُونَ","Kamukah yang menumbuhkannya atau Kami yang menumbuhkannya?"],
+["لَوْ نَشَآءُ لَجَعَلْنَٰهُ حُطَٰمًا فَظَلْتُمْ تَفَكَّهُونَ","Sekiranya Kami menghendaki, benar-benar Kami jadikan dia hancur dan kering, maka kamu akan heran tercengang,"],
+["إِنَّا لَمُغْرَمُونَ","(sambil berkata), “Sungguh, kami benar-benar menderita kerugian,"],
+["بَلْ نَحْنُ مَحْرُومُونَ","bahkan kami menjadi orang yang tidak mendapat hasil apa pun.”"],
+["أَفَرَءَيْتُمُ ٱلْمَآءَ ٱلَّذِى تَشْرَبُونَ","Maka terangkanlah kepada-Ku tentang air yang kamu minum."],
+["ءَأَنتُمْ أَنزَلْتُمُوهُ مِنَ ٱلْمُزْنِ أَمْ نَحْنُ ٱلْمُنزِلُونَ","Kamukah yang menurunkannya dari awan, atau Kami yang menurunkan?"],
+["لَوْ نَشَآءُ جَعَلْنَٰهُ أُجَاجًا فَلَوْلَا تَشْكُرُونَ","Sekiranya Kami menghendaki, Kami jadikan dia asin, mengapa kamu tidak bersyukur?"],
+["أَفَرَءَيْتُمُ ٱلنَّارَ ٱلَّتِى تُورُونَ","Maka terangkanlah kepada-Ku tentang api yang kamu nyalakan (dengan gosokan kayu)."],
+["ءَأَنتُمْ أَنشَأْتُمْ شَجَرَتَهَآ أَمْ نَحْنُ ٱلْمُنشِـُٔونَ","Kamukah yang menjadikan kayu itu atau Kami yang menjadikannya?"],
+["نَحْنُ جَعَلْنَٰهَا تَذْكِرَةً وَمَتَٰعًا لِّلْمُقْوِينَ","Kami menjadikannya (api itu) untuk peringatan dan bahan yang bermanfaat bagi musafir di padang pasir."],
+["فَسَبِّحْ بِٱسْمِ رَبِّكَ ٱلْعَظِيمِ","Maka bertasbihlah dengan (menyebut) nama Tuhanmu Yang Mahabesar."],
+["فَلَآ أُقْسِمُ بِمَوَٰقِعِ ٱلنُّجُومِ","Maka Aku bersumpah dengan tempat beredarnya bintang-bintang."],
+["وَإِنَّهُۥ لَقَسَمٌ لَّوْ تَعْلَمُونَ عَظِيمٌ","Dan sesungguhnya itu benar-benar sumpah yang besar sekiranya kamu mengetahui."],
+["إِنَّهُۥ لَقُرْءَانٌ كَرِيمٌ","Sesungguhnya (yang dibacakan itu) Al-Qur’an yang sangat mulia,"],
+["فِى كِتَٰبٍ مَّكْنُونٍ","dalam Kitab yang terpelihara (Lauh Mahfuz),"],
+["لَّا يَمَسُّهُۥٓ إِلَّا ٱلْمُطَهَّرُونَ","tidak ada yang menyentuhnya selain hamba-hamba yang disucikan."],
+["تَنزِيلٌ مِّن رَّبِّ ٱلْعَٰلَمِينَ","Diturunkan dari Tuhan seluruh alam."],
+["أَفَبِهَٰذَا ٱلْحَدِيثِ أَنتُم مُّدْهِنُونَ","Apakah kamu menganggap remeh berita ini (Al-Qur’an)?"],
+["وَتَجْعَلُونَ رِزْقَكُمْ أَنَّكُمْ تُكَذِّبُونَ","Dan kamu jadikan rezeki yang kamu terima (dari Allah) justru untuk mendustakan(-Nya)?"],
+["فَلَوْلَآ إِذَا بَلَغَتِ ٱلْحُلْقُومَ","Maka mengapa ketika (nyawa) telah sampai di kerongkongan,"],
+["وَأَنتُمْ حِينَئِذٍ تَنظُرُونَ","dan kamu pada waktu itu melihat,"],
+["وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنكُمْ وَلَٰكِن لَّا تُبْصِرُونَ","dan Kami lebih dekat kepadanya daripada kamu, tetapi kamu tidak melihat,"],
+["فَلَوْلَآ إِن كُنتُمْ غَيْرَ مَدِينِينَ","maka mengapa jika kamu tidak dikuasai (oleh Allah),"],
+["تَرْجِعُونَهَآ إِن كُنتُمْ صَٰدِقِينَ","kamu tidak mengembalikannya (ruh itu) jika kamu orang yang benar?"],
+["فَأَمَّآ إِن كَانَ مِنَ ٱلْمُقَرَّبِينَ","Adapun jika dia (orang yang mati) termasuk orang yang didekatkan (kepada Allah),"],
+["فَرَوْحٌ وَرَيْحَانٌ وَجَنَّتُ نَعِيمٍ","maka dia memperoleh ketenteraman dan rezeki serta surga kenikmatan."],
+["وَأَمَّآ إِن كَانَ مِنْ أَصْحَٰبِ ٱلْيَمِينِ","Dan adapun jika dia termasuk golongan kanan,"],
+["فَسَلَٰمٌ لَّكَ مِنْ أَصْحَٰبِ ٱلْيَمِينِ","maka “Salam bagimu (wahai orang yang berada) di golongan kanan.”"],
+["وَأَمَّآ إِن كَانَ مِنَ ٱلْمُكَذِّبِينَ ٱلضَّآلِّينَ","Dan adapun jika dia termasuk golongan yang mendustakan lagi sesat,"],
+["فَنُزُلٌ مِّنْ حَمِيمٍ","maka dia disambut dengan air yang mendidih,"],
+["وَتَصْلِيَةُ جَحِيمٍ","dan dibakar di dalam neraka."],
+["إِنَّ هَٰذَا لَهُوَ حَقُّ ٱلْيَقِينِ","Sungguh, (yang disebutkan) ini adalah keyakinan yang benar."],
+["فَسَبِّحْ بِٱسْمِ رَبِّكَ ٱلْعَظِيمِ","Maka bertasbihlah dengan (menyebut) nama Tuhanmu Yang Mahabesar."]]}
+];
+const Q=["1","112","113","114","108","103","109","110","111","106","105","107","97","2:255","93","94","95","55","56"];
+const $=id=>document.getElementById(id);
+let cur=0,idx=-1,timer=null;
+const ar=n=>String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+S.forEach((s,i)=>{const o=document.createElement("option");o.value=i;o.textContent=(i+1)+". "+s.n+" ("+s.v.length+" ayat)";$("sel").appendChild(o)});
+function render(){
+  stop();const s=S[cur];
+  let h='<h2>'+s.n+' · <span style="font-family:Amiri,serif">'+s.a+'</span></h2><div class="meta">'+s.k+' · '+s.v.length+' ayat</div>';
+  s.v.forEach((x,i)=>{h+='<div class="ayah" data-i="'+i+'"><p class="ar" style="font-size:'+$("sz").value+'px">'+x[0]+'<span class="num">'+ar(i+1)+'</span></p><p class="tr">'+(i+1)+'. '+x[1]+'</p></div>'});
+  $("out").innerHTML=h;
+  $("out").querySelectorAll(".ayah").forEach(e=>e.onclick=()=>mark(+e.dataset.i));
+  $("stt").textContent="Belum mulai. Ketuk ayat untuk menandainya.";
+  $("lnk").href="https://quran.com/"+Q[cur];
+  try{const b=localStorage.getItem("bm");if(b){const p=JSON.parse(b);$("bm").textContent="Terakhir ditandai: "+S[p.s].n+" ayat "+(p.i+1)}}catch(e){}
+}
+function hl(i){idx=i;document.querySelectorAll(".ayah").forEach((e,k)=>e.classList.toggle("act",k===i));const e=document.querySelectorAll(".ayah")[i];if(e)e.scrollIntoView({behavior:"smooth",block:"center"})}
+function mark(i){hl(i);try{localStorage.setItem("bm",JSON.stringify({s:cur,i:i}))}catch(e){}$("bm").textContent="Terakhir ditandai: "+S[cur].n+" ayat "+(i+1)}
+let tk=0;function stop(){tk++;try{speechSynthesis.cancel()}catch(e){}clearInterval(timer);timer=null;$("st").classList.remove("on");if(idx>=0)$("stt").textContent="Berhenti di ayat "+(idx+1)}
+function play(){
+  stop();const n=S[cur].v.length;let i=0;hl(0);
+  $("st").classList.add("on");
+  const step=()=>{$("stt").textContent="Sedang mengaji "+S[cur].n+" · ayat "+(i+1)+" dari "+n};step();
+  timer=setInterval(()=>{i++;if(i>=n){clearInterval(timer);timer=null;$("st").classList.remove("on");$("stt").textContent="Selesai. Shadaqallahul ʿazhim 🤲";return}hl(i);step()},parseFloat($("tp").value)*1000);
+}
+$("sel").onchange=e=>{cur=+e.target.value;idx=-1;render()};
+function tts(){
+  stop();
+  if(!("speechSynthesis" in window)){$("stt").textContent="Perangkat ini tidak mendukung suara bawaan.";return}
+  const my=tk,v=S[cur].v;let i=0;$("st").classList.add("on");
+  const next=()=>{
+    if(my!==tk)return;
+    if(i>=v.length){$("st").classList.remove("on");$("stt").textContent="Selesai dibacakan suara perangkat.";return}
+    hl(i);$("stt").textContent="Suara perangkat (bukan ustadz) · ayat "+(i+1)+" dari "+v.length;
+    const u=new SpeechSynthesisUtterance(v[i][0]);u.lang="ar-SA";u.rate=0.7;
+    u.onend=()=>{i++;next()};
+    u.onerror=()=>{if(my===tk){$("st").classList.remove("on");$("stt").textContent="Suara Arab tidak tersedia di perangkat ini. Coba buka Quran.com di atas."}};
+    speechSynthesis.speak(u);
+  };
+  next();
+}
+$("play").onclick=play;$("tts").onclick=tts;$("stop").onclick=stop;
+$("sz").oninput=()=>document.querySelectorAll(".ar").forEach(e=>e.style.fontSize=$("sz").value+"px");
+function openS(i){cur=i;$('sel').value=i;idx=-1;render();$('cover').hidden=true;$('app').hidden=false;window.scrollTo(0,0)}
+$('back').onclick=()=>{stop();$('app').hidden=true;$('cover').hidden=false;window.scrollTo(0,0)};
+S.forEach((s,i)=>{const b=document.createElement('button');b.className='card';b.innerHTML='<span class="a">'+s.a+'</span><b>'+s.n+'</b><small>'+s.v.length+' ayat</small>';b.onclick=()=>openS(i);$('grid').appendChild(b)});
+render();
+</script>
+</body>
+</html>
